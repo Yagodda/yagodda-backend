@@ -15,7 +15,6 @@ public class YagoddaBackendApplication {
 
     }
 
-
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.OAS_30)

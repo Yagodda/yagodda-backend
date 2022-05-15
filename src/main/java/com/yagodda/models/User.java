@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -53,12 +51,20 @@ public class User implements UserDetails {
     @Column(name = "username", unique = true)
     private String username;
 
-    @Column(name = "date_of_created", updatable = false)
-    private LocalDateTime dateOfCreated;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    private List<Post> posts = new ArrayList<>();
+
+    @Column(name = "created", updatable = false)
+    private LocalDateTime created;
 
     @PrePersist
     private void onCreate() {
-        dateOfCreated = LocalDateTime.now();
+        created = LocalDateTime.now();
+    }
+
+    public void addPostToUser(Post post) {
+        post.setAuthor(this);
+        posts.add(post);
     }
 
     // security
