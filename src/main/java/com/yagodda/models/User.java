@@ -54,6 +54,9 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private List<Post> posts = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
+
     @Column(name = "created", updatable = false)
     private LocalDateTime created;
 

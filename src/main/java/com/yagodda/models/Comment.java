@@ -10,29 +10,28 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "files")
+@Table(name = "comments")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("File path model")
-public class FilePath {
+@ApiModel("Comment path model")
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, updatable = false)
     private Long id;
 
-    @Column(name = "original_file_name")
-    private String originalFileName;
+    @Column(name = "text", columnDefinition = "text")
+    private String text;
 
-    @Column(name = "mime_type")
-    private String mimeType;
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
-    @Column(name = "store_path")
-    private String storePath;
-
-    @Column(name = "uuid", unique = true)
-    private String uuid;
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "created", updatable = false)
     private LocalDateTime created;

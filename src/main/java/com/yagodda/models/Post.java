@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,6 @@ public class Post {
     @Column(name = "caption")
     private String caption;
 
-    @Column(name = "views")
-    private Long views;
-
     @Column(name = "likes")
     private Integer likes;
 
@@ -41,6 +40,9 @@ public class Post {
     @JoinColumn(name = "post_id")
     private List<FilePath> images = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
     @Column(name = "created", updatable = false)
     private LocalDateTime created;
 
@@ -48,5 +50,4 @@ public class Post {
     private void onCreate() {
         created = LocalDateTime.now();
     }
-
 }

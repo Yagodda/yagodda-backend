@@ -14,4 +14,6 @@ public interface UserService {
     Optional<User> getById(Long userId);
 
     void createUser(SingUpRequest singUpRequest);
+
+    String sendSmsCode(String phoneNumber);
 }
